@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="Alaska.Controls.ProcessGraph.Controls.GraphTimeline.Controls.TimelineRuler.View.TimelineRulerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:syncScroll="clr-namespace:Alaska.Controls.SyncScrollViewer.View"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:vm="clr-namespace:Alaska.Controls.ProcessGraph.Controls.GraphTimeline.Controls.TimelineRuler.ViewModel"
+             xmlns:timelineMarkers="clr-namespace:Alaska.Controls.ProcessGraph.Controls.GraphTimeline.Controls.TimlineMarker.View"
+             d:DesignHeight="80"
+             d:DesignWidth="200"
+             mc:Ignorable="d">
+
+    <Grid DataContext="{Binding ViewModel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}">
+
+        <!--<Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>-->
+
+        <syncScroll:SyncScrollViewerView
+            HorizontalScrollBarVisibility="Visible"
+            SyncHorizontalOffset="{Binding SyncHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor, AncestorLevel=1}, Mode=TwoWay}"
+            SyncVerticalOffset="{Binding SyncVerticalOffset, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor, AncestorLevel=1}, Mode=TwoWay}"
+            VerticalScrollBarVisibility="Hidden"
+            syncScroll:SyncScrollingService.IsBringIntoViewDisabled="True"
+            syncScroll:SyncScrollingService.IsDragEnabled="True">
+            
+            <Border
+                BorderThickness="0, 1, 0, 0"
+                BorderBrush="{DynamicResource tab_button_text_active}">
+
+                <Grid
+                    Width="{Binding RulerFullWidth}"
+                    HorizontalAlignment="Left">
+
+                    <ListBox
+                        ItemContainerStyle="{DynamicResource TimelineRulerListBoxItemStyle}"
+                        ItemsSource="{Binding Marks}"
+                        Style="{DynamicResource TimelineRulerListBoxStyle}" />
+
+                    <timelineMarkers:TimelineMarkerView
+                        Margin="1, 0, 0, 0"
+                        SelectedState="{Binding SelectedState}"
+                        Background="#19FF0000">
+                        
+                        <timelineMarkers:TimelineMarkerView.BorderBrush>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="0" Color="Red" />
+                                <GradientStop Offset="1" Color="#00FFFFFF" />
+                            </LinearGradientBrush>
+                        </timelineMarkers:TimelineMarkerView.BorderBrush>
+                        
+                    </timelineMarkers:TimelineMarkerView>
+
+                    <Line
+                        Stroke="{StaticResource tab_button_face_selected}"
+                        SnapsToDevicePixels="True"
+                        X1="{Binding TimeMarkX}"
+                        X2="{Binding TimeMarkX}"
+                        Y1="0"
+                        Y2="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}" />
+                    
+                </Grid>
+            </Border>
+        </syncScroll:SyncScrollViewerView>
+    </Grid>
+</UserControl>

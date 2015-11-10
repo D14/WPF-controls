@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="Alaska.Controls.ProcessGraph.Controls.GraphTimeline.Controls.TimelineMemory.View.TimelineMemoryView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:syncScroll="clr-namespace:Alaska.Controls.SyncScrollViewer.View"
+             xmlns:timelineMarkers="clr-namespace:Alaska.Controls.ProcessGraph.Controls.GraphTimeline.Controls.TimlineMarker.View"
+             xmlns:vm="clr-namespace:Alaska.Controls.ProcessGraph.Controls.GraphTimeline.Controls.TimelineMemory.ViewModel"
+             d:DesignHeight="300"
+             d:DesignWidth="300"
+             mc:Ignorable="d">
+
+    <Grid DataContext="{Binding ViewModel, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor}}">
+
+
+
+        <syncScroll:SyncScrollViewerView
+            Margin="0"
+            HorizontalScrollBarVisibility="Hidden"
+            SyncHorizontalOffset="{Binding SyncHorizontalOffset, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor, AncestorLevel=1}, Mode=TwoWay}"
+            SyncVerticalOffset="{Binding SyncVerticalOffset, RelativeSource={RelativeSource AncestorType={x:Type UserControl}, Mode=FindAncestor, AncestorLevel=1}, Mode=TwoWay}"
+            VerticalScrollBarVisibility="Hidden"
+            syncScroll:SyncScrollingService.IsDragEnabled="True">
+
+            <Grid
+                Width="{Binding GraphWidth}"
+                HorizontalAlignment="Left">
+
+                <Canvas>
+
+                    <Polyline
+                        Canvas.Top="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                        Margin="0"
+                        Fill="#773399FF"
+                        Opacity="1"
+                        Points="{Binding SizePointCollection}"
+                        Stroke="#FF3399FF"
+                        StrokeThickness="1"
+                        SnapsToDevicePixels="True" >
+
+                        <Polyline.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="-1" />
+                                <SkewTransform AngleX="0" AngleY="0" />
+                                <RotateTransform Angle="0" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Polyline.RenderTransform>
+                    </Polyline>
+
+                    <Polyline
+                        Canvas.Top="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Canvas}}"
+                        Fill="{DynamicResource White3}"
+                        Opacity="0.75"
+                        Points="{Binding UsedPointCollection}"
+                        Stroke="{DynamicResource White}"
+                        StrokeThickness="1"
+                        SnapsToDevicePixels="True" >
+
+                        <Polyline.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1" ScaleY="-1" />
+                                <SkewTransform AngleX="0" AngleY="0" />
+                                <RotateTransform Angle="0" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Polyline.RenderTransform>
+                    </Polyline>
+                    
+                </Canvas>
+
+                <timelineMarkers:TimelineMarkerView
+                    Margin="1, 0, 0, 0"
+                    SelectedState="{Binding SelectedState}"
+                    Background="#19FF0000"
+                    BorderBrush="{DynamicResource tab_button_highlighted_face}"/>
+
+                <Line
+                    Stroke="{StaticResource tab_button_face_selected}"
+                    SnapsToDevicePixels="True"
+                    X1="{Binding TimeMarkX}"
+                    X2="{Binding TimeMarkX}"
+                    Y1="0"
+                    Y2="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Grid}}" />
+
+            </Grid>
+
+        </syncScroll:SyncScrollViewerView>
+    </Grid>
+</UserControl>
